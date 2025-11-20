@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 class InvoiceDialog extends JDialog {
-    private JTextArea invoiceTextArea;
+	private JTextArea invoiceTextArea;
     private JButton saveButton;
     private JButton closeButton;
     
