@@ -1,3 +1,8 @@
+/*
+ * Author: John Cedeno
+ * 
+ */
+
 package pointOfSale;
 
 import java.io.File;
