@@ -6,9 +6,9 @@
 package pointOfSale;
 
 public class Item {
-	private String name;
-	private double price;
-	private String description;
+	private final String name;
+	private final double price;
+	private final String description;
 	
 	public Item(String name, double price, String description) {
 		this.name = name;
@@ -35,5 +35,10 @@ public class Item {
 	public void display() {
 		System.out.printf("Price: %d, Name: %s, Description: %s", 
 				this.getPrice(), this.name, this.description);
+	}
+	
+	@Override
+	public int hashCode() {
+		return java.util.Objects.hash(name, price, description);
 	}
 }

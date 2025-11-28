@@ -10,13 +10,13 @@ import java.io.*;
 public class TextFileStrategy implements InvoiceStrategy {
 
 	@Override
-	public void generate(String reciept, File filepath) {
+	public void generate(ReceiptModel reciept, File filepath) {
 		if (filepath.isFile()) {
-			saveFile(filepath, reciept);
+			saveFile(filepath, reciept.toString());
 		} else {
 			try {
 				if (filepath.createNewFile()) {
-					saveFile(filepath, reciept);
+					saveFile(filepath, reciept.toString());
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
