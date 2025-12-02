@@ -7,11 +7,9 @@ package pointOfSale;
 
 public class Item extends MenuComponent {
 	private final double price;
-	private final String description;
 	
-	public Item(String name, double price, String description) {
+	public Item(String name, double price) {
 		super(name);
-		this.description = description;
 		this.price = price;
 	}
 	
@@ -20,28 +18,28 @@ public class Item extends MenuComponent {
 	}
 	
 	@Override
-        public double getTotalPrice() {
+    public double getTotalPrice() {
         return price;
-        }
+    }
 	
 	public String getName() {
 		return this.name;
 	}
 	
-	public String getDescription() {
-		return this.description;
-	}
-	
 	@Override
     public void display() {
-        System.out.printf("Price: %.2f, Name: %s, Description: %s%n", getPrice(), name, description);
+        System.out.printf(this.toString());
     }
 	
 	@Override
 	public int hashCode() {
-		return java.util.Objects.hash(name, price, description);
+		return java.util.Objects.hash(name, price);
 	}
 	
+	@Override
+    public String toString() {
+        return String.format("Price: %.2f, Name: %s", getPrice(), name);
+    }
 	
 	// Increases quantity of line item
 	@Override
@@ -50,8 +48,7 @@ public class Item extends MenuComponent {
 	    if (!(obj instanceof Item)) return false;
 	    Item other = (Item) obj;
 	    return name.equals(other.name)
-	            && price == other.price
-	            && description.equals(other.description);
+	            && price == other.price;
 	}
 
 }

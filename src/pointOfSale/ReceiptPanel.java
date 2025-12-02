@@ -13,12 +13,10 @@ class ReceiptPanel extends JPanel {
     private JTable itemsTable;
     private JLabel totalLabel;
     private DefaultTableModel tableModel;
-    private boolean sampleDataShown;
 
     public ReceiptPanel() {
         setLayout(new BorderLayout(5, 5));
         initComponents();
-        addSampleData(); 
     }
 
     private void initComponents() {
@@ -69,20 +67,9 @@ class ReceiptPanel extends JPanel {
                 });
             }
             totalLabel.setText(String.format("$%.2f", receiptModel.getTotal()));
-        } else if (!sampleDataShown) {
-            // Sample data will show once on startup, but will not return after user interaction
-            addSampleData();
-            sampleDataShown = true;
         } else {
             totalLabel.setText("$0.00");
         }
-    }
-
-    // Adds sample data to the table 
-    private void addSampleData() {
-        tableModel.addRow(new Object[]{"Coffee", 2, "$2.50", "$5.00"});
-        tableModel.addRow(new Object[]{"Sandwich", 1, "$5.99", "$5.99"});
-        totalLabel.setText("$10.99");
     }
 
     public int getSelectedRow() {

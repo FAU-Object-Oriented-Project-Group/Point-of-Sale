@@ -5,6 +5,8 @@
 
 package pointOfSale;
 
+import java.awt.event.ActionEvent;
+
 public class POSController {
 
     private final ReceiptModel receiptModel;
@@ -53,7 +55,7 @@ public class POSController {
         view.updateReceipt(receiptModel);
     }
 
-    public void handleGenerateInvoice() {
+    public void handleGenerateInvoice(ActionEvent e) {
         String invoiceText = receiptModel.toString();
         view.showInvoice(invoiceText);
     }

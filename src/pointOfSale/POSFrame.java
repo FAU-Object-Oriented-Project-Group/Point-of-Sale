@@ -7,8 +7,11 @@
 package pointOfSale;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class POSFrame extends JFrame implements POSView {
     private CategoryPanel categoryPanel;
@@ -85,7 +88,7 @@ public class POSFrame extends JFrame implements POSView {
                 price = Double.parseDouble(parts[1].trim());
             } catch (NumberFormatException ex) { return; }
 
-            Item item = new Item(name, price, "");
+            Item item = new Item(name, price);
             this.controller.handleItemSelection(item);
         });
 
@@ -99,7 +102,7 @@ public class POSFrame extends JFrame implements POSView {
         clearReceiptBtn.addActionListener(e -> this.controller.handleClearReceipt());
 
         // Generate Invoice
-        generateInvoiceBtn.addActionListener(e -> this.controller.handleGenerateInvoice());
+        generateInvoiceBtn.addActionListener(e -> this.controller.handleGenerateInvoice(e));
 
         // Invoice format change
         invoiceFormatCombo.addActionListener(e -> {
@@ -116,7 +119,23 @@ public class POSFrame extends JFrame implements POSView {
             receiptPanel.updateDisplay((ReceiptModel) receiptModel);
     }
     @Override
-    public void showInvoice(String invoice) {}
+    public void showInvoice(String invoice) {
+    	JFileChooser fileChooser = new JFileChooser();
+    	fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+    	int result = fileChooser.showSaveDialog(this);
+    	System.out.println(invoiceFormatCombo.getSelectedItem());
+    	if (invoiceFormatCombo.getSelectedItem().equals("Text")) {
+    		fileChooser.setFileFilter(new FileNameExtensionFilter("txt file","txt"));
+    		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("txt file","txt"));
+    	} else if (invoiceFormatCombo.getSelectedItem().equals("PDF")) {
+    		fileChooser.setFileFilter(new FileNameExtensionFilter("pdf file","pdf"));
+    		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("pdf file","pdf"));
+    	}
+    	if (result == JFileChooser.APPROVE_OPTION) {
+    		File selectedFile = fileChooser.getSelectedFile();
+    		controller.saveInvoiceToFile(selectedFile);
+    	} 
+    }
     @Override
     public Object getSelectedItem() { return categoryPanel.getSelectedItem(); }
 }

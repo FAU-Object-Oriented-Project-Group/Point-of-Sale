@@ -7,6 +7,7 @@ package pointOfSale;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 class InvoiceDialog extends JDialog {
 	private JTextArea invoiceTextArea;
@@ -52,6 +53,6 @@ class InvoiceDialog extends JDialog {
     }
     
     public void addSaveListener(Object listener) {
-        // Will add ActionListener
+    	
     }
 }

@@ -1,3 +1,7 @@
+/*
+ * Author: John Cedeno
+ */
+
 package pointOfSale;
 
 import java.util.Date;
@@ -94,7 +98,7 @@ public class ReceiptModel {
         sb.append("Date: ").append(timestamp).append("\n");
         sb.append("Items:\n");
         for (LineItem lineItem : items) {
-            sb.append("  ").append(lineItem).append("\n");
+            sb.append("  ").append(lineItem.toString()).append("\n");
         }
         sb.append(String.format("Total: $%.2f", getTotal()));
         return sb.toString();
