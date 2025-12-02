@@ -1,11 +1,11 @@
 /*
- * Author: John Cedeno
+ * Author: John Cedeno & Jacob Eurglunes & John Cornett
  * 
  */
 
 package pointOfSale;
 
-public class Item {
+public class Item extends MenuComponent {
 	private final String name;
 	private final double price;
 	private final String description;
@@ -20,9 +20,10 @@ public class Item {
 		return this.price;
 	}
 	
-	public double getTotalPrice() {
-		return this.getPrice();
-	}
+	@Override
+        public double getTotalPrice() {
+        return price;
+        }
 	
 	public String getName() {
 		return this.name;
@@ -32,13 +33,26 @@ public class Item {
 		return this.description;
 	}
 	
-	public void display() {
-		System.out.printf("Price: %d, Name: %s, Description: %s", 
-				this.getPrice(), this.name, this.description);
-	}
+	@Override
+        public void display() {
+        System.out.printf("Price: %.2f, Name: %s, Description: %s%n", getPrice(), name, description);
+        }
 	
 	@Override
 	public int hashCode() {
 		return java.util.Objects.hash(name, price, description);
 	}
+	
+	
+	// Increases quantity of line item
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (!(obj instanceof Item)) return false;
+	    Item other = (Item) obj;
+	    return name.equals(other.name)
+	            && price == other.price
+	            && description.equals(other.description);
+	}
+
 }
