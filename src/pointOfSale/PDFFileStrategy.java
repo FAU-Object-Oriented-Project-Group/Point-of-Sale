@@ -95,8 +95,19 @@ public class PDFFileStrategy implements InvoiceStrategy {
 		StringBuilder content = new StringBuilder();
 	    content.append("BT\n");  // Begin text
 	    content.append("/F1 12 Tf\n");  // Set font and size
+	    content.append("14 TL\n");
 	    content.append("50 750 Td\n");  // Set position (x, y from bottom-left)
-	    content.append("(").append(escapePDFString(text)).append(") Tj\n");  // Show text
+	    
+	    String[] lines = text.split("\r?\n");
+	    
+	    for (int i = 0; i < lines.length; i++) {
+	    	String currentLine = escapePDFString(lines[i]);
+	    	content.append("(").append(currentLine).append(") Tj\n");
+	    	if (i < lines.length - 1) {
+	    		content.append("T*\n");
+	    	}
+	    }
+	    
 	    content.append("ET");  // End text
 	    return content.toString();
 	}
