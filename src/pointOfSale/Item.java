@@ -6,12 +6,11 @@
 package pointOfSale;
 
 public class Item extends MenuComponent {
-	private final String name;
 	private final double price;
 	private final String description;
 	
 	public Item(String name, double price, String description) {
-		this.name = name;
+		super(name);
 		this.description = description;
 		this.price = price;
 	}
@@ -34,9 +33,9 @@ public class Item extends MenuComponent {
 	}
 	
 	@Override
-        public void display() {
+    public void display() {
         System.out.printf("Price: %.2f, Name: %s, Description: %s%n", getPrice(), name, description);
-        }
+    }
 	
 	@Override
 	public int hashCode() {
