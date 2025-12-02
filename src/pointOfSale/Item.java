@@ -1,5 +1,5 @@
 /*
- * Author: John Cedeno & Jacob Eurglunes & John Cornett
+ * Author: John Cedeno & Jacob Eurglunes & John Cornett 
  * 
  */
 
