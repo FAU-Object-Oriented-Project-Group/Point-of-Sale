@@ -38,7 +38,7 @@ public class Item extends MenuComponent {
 	
 	@Override
     public String toString() {
-        return String.format("%s - $%.2f", name, getPrice());
+        return String.format("Item: %s - $%.2f", name, getPrice());
     }
 	
 	// Increases quantity of line item

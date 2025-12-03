@@ -7,9 +7,7 @@ package pointOfSale;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,7 +19,7 @@ class CategoryPanel extends JPanel {
     private Category rootCategory;
 
     public CategoryPanel() {
-    	rootCategory = new Category("Menu");
+    	rootCategory = new Category("Main");
     	
         setLayout(new BorderLayout());
         
@@ -111,12 +109,8 @@ class CategoryPanel extends JPanel {
     	return null;
     }
 
-
     // Attach listener to the Add button
     public void addAddToReceiptListener(ActionListener listener) {
-        if (!(listener instanceof ActionListener)) return;
-        ActionListener al = (ActionListener) listener;
-
         if (!(getLayout() instanceof BorderLayout)) return;
         BorderLayout bl = (BorderLayout) getLayout();
 
@@ -127,16 +121,14 @@ class CategoryPanel extends JPanel {
         for (Component comp : buttonPanel.getComponents()) {
             if (comp instanceof JButton &&
                     ((JButton) comp).getText().equals("Add to Receipt")) {
-                ((JButton) comp).addActionListener(al);
+                ((JButton) comp).addActionListener(listener);
                 return;
             }
         }
     }
     
+    // Attach listener to the Add Category button
     public void addCategoryListener(ActionListener listener) {
-        if (!(listener instanceof ActionListener)) return;
-        ActionListener al = (ActionListener) listener;
-
         if (!(getLayout() instanceof BorderLayout)) return;
         BorderLayout bl = (BorderLayout) getLayout();
 
@@ -147,16 +139,14 @@ class CategoryPanel extends JPanel {
         for (Component comp : buttonPanel.getComponents()) {
             if (comp instanceof JButton &&
                     ((JButton) comp).getText().equals("Add Category")) {
-                ((JButton) comp).addActionListener(al);
+                ((JButton) comp).addActionListener(listener);
                 return;
             }
         }
     }
     
+    // Attach listener to the Add Item button
     public void addItemListener(ActionListener listener) {
-        if (!(listener instanceof ActionListener)) return;
-        ActionListener al = (ActionListener) listener;
-
         if (!(getLayout() instanceof BorderLayout)) return;
         BorderLayout bl = (BorderLayout) getLayout();
 
@@ -167,7 +157,7 @@ class CategoryPanel extends JPanel {
         for (Component comp : buttonPanel.getComponents()) {
             if (comp instanceof JButton &&
                     ((JButton) comp).getText().equals("Add Item")) {
-                ((JButton) comp).addActionListener(al);
+                ((JButton) comp).addActionListener(listener);
                 return;
             }
         }

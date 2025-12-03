@@ -39,7 +39,7 @@ public class Category extends MenuComponent {
 	
 	@Override
 	public String toString() {
-		return name;
+		return "Category: " + name;
 	}
 	
 	@Override
