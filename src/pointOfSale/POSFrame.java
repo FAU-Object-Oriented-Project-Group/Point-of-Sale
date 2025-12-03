@@ -73,6 +73,8 @@ public class POSFrame extends JFrame implements POSView {
         if (!(controller instanceof POSController)) return;
         this.controller = (POSController) controller;
 
+        this.controller.setCategoryPanel(categoryPanel);
+        
         // Add to Receipt
         categoryPanel.addAddToReceiptListener((ActionListener) e -> {
         	
@@ -82,7 +84,8 @@ public class POSFrame extends JFrame implements POSView {
             Item item = new Item(selected.getName(), selected.getTotalPrice());
             this.controller.handleItemSelection(item);
         });
-
+        
+        
         // Remove Selected
         receiptPanel.addRemoveButtonListener((ActionListener) e -> {
             int row = receiptPanel.getSelectedRow();

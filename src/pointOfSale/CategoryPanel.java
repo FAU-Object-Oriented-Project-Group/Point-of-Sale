@@ -6,12 +6,13 @@
 package pointOfSale;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 class CategoryPanel extends JPanel {
     private JTree categoryTree;
@@ -37,13 +38,17 @@ class CategoryPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
 
         // Add button panel
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel bottomButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel topButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton addToReceiptBtn = new JButton("Add to Receipt");
         JButton addItemBtn = new JButton("Add Item");
+        JButton addCategoryBtn = new JButton("Add Category");
         
-        buttonPanel.add(addItemBtn);
-        buttonPanel.add(addToReceiptBtn);
-        add(buttonPanel, BorderLayout.SOUTH);
+        topButtonPanel.add(addItemBtn);
+        topButtonPanel.add(addCategoryBtn);
+        bottomButtonPanel.add(addToReceiptBtn);
+        add(bottomButtonPanel, BorderLayout.SOUTH);
+        add(topButtonPanel, BorderLayout.NORTH);
     }
     
     public void buildTree() {
@@ -65,7 +70,11 @@ class CategoryPanel extends JPanel {
     	rootCategory.add(food);
     	rootCategory.add(desserts);
     	
-    	rebuildTree();
+    	DefaultMutableTreeNode treeRoot = rootCategory.buildTreeNode();
+        treeModel = new DefaultTreeModel(treeRoot);
+        categoryTree = new JTree(treeModel);
+    	expandAllNodes();
+    	treeModel.reload();
     }
 
     public Item getSelectedItem() {
@@ -81,9 +90,30 @@ class CategoryPanel extends JPanel {
         }
         return null;
     }
+    
+    public Category getSelectedCategory() {
+    	TreePath path = categoryTree.getSelectionPath();
+    	if (path == null) return null;
+    	
+    	DefaultMutableTreeNode node =
+    			(DefaultMutableTreeNode) path.getLastPathComponent();
+    	Object userObject = node.getUserObject();
+    	
+    	if (userObject instanceof Category) {
+    		return (Category) userObject;
+    	} else if (userObject instanceof Item) {
+    		DefaultMutableTreeNode parent = (DefaultMutableTreeNode) node.getParent();
+    		if (parent != null) {
+    			return (Category) parent.getUserObject();
+    		}
+    	}
+    	
+    	return null;
+    }
+
 
     // Attach listener to the Add button
-    public void addAddToReceiptListener(Object listener) {
+    public void addAddToReceiptListener(ActionListener listener) {
         if (!(listener instanceof ActionListener)) return;
         ActionListener al = (ActionListener) listener;
 
@@ -103,12 +133,54 @@ class CategoryPanel extends JPanel {
         }
     }
     
+    public void addCategoryListener(ActionListener listener) {
+        if (!(listener instanceof ActionListener)) return;
+        ActionListener al = (ActionListener) listener;
+
+        if (!(getLayout() instanceof BorderLayout)) return;
+        BorderLayout bl = (BorderLayout) getLayout();
+
+        Component northComp = bl.getLayoutComponent(BorderLayout.NORTH);
+        if (!(northComp instanceof JPanel)) return;
+        JPanel buttonPanel = (JPanel) northComp;
+
+        for (Component comp : buttonPanel.getComponents()) {
+            if (comp instanceof JButton &&
+                    ((JButton) comp).getText().equals("Add Category")) {
+                ((JButton) comp).addActionListener(al);
+                return;
+            }
+        }
+    }
+    
+    public void addItemListener(ActionListener listener) {
+        if (!(listener instanceof ActionListener)) return;
+        ActionListener al = (ActionListener) listener;
+
+        if (!(getLayout() instanceof BorderLayout)) return;
+        BorderLayout bl = (BorderLayout) getLayout();
+
+        Component northComp = bl.getLayoutComponent(BorderLayout.NORTH);
+        if (!(northComp instanceof JPanel)) return;
+        JPanel buttonPanel = (JPanel) northComp;
+
+        for (Component comp : buttonPanel.getComponents()) {
+            if (comp instanceof JButton &&
+                    ((JButton) comp).getText().equals("Add Item")) {
+                ((JButton) comp).addActionListener(al);
+                return;
+            }
+        }
+    }
+    
+    public void addSelectionListener(TreeSelectionListener listener) {
+    	categoryTree.addTreeSelectionListener(listener);
+    }
+    
     public void rebuildTree() {
     	DefaultMutableTreeNode treeRoot = rootCategory.buildTreeNode();
-        treeModel = new DefaultTreeModel(treeRoot);
-        categoryTree = new JTree(treeModel);
-    	expandAllNodes();
-    	treeModel.reload();
+        treeModel.setRoot(treeRoot);
+        expandAllNodes();
     }
     
     private void expandAllNodes() {
