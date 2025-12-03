@@ -9,10 +9,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-class ReceiptPanel extends JPanel {
+class ReceiptPanel extends JPanel implements ReceiptObserver {
     private JTable itemsTable;
     private JLabel totalLabel;
     private DefaultTableModel tableModel;
+    private ReceiptModel receiptModel;
 
     public ReceiptPanel() {
         setLayout(new BorderLayout(5, 5));
@@ -99,6 +100,21 @@ class ReceiptPanel extends JPanel {
             }
         }
     }
+    
+    public void setReceiptModel(ReceiptModel receiptModel) {
+    	if (this.receiptModel != null) {
+    		this.receiptModel.removeObserver(this);
+    	}
+    	
+    	this.receiptModel = receiptModel;
+    	this.receiptModel.addObserver(this);
+    	updateDisplay(this.receiptModel);
+    }
+
+	@Override
+	public void update(ReceiptModel reciept) {
+		updateDisplay(receiptModel);
+	}
 }
 
 

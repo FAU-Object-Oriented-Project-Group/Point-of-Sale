@@ -43,7 +43,6 @@ public class POSController {
             return;
         }
         receiptModel.addItem(item, 1);
-        view.updateReceipt(receiptModel);
     }
 
 
@@ -52,7 +51,6 @@ public class POSController {
             return; // out of bounds, ignore
         }
         receiptModel.removeItem(index);
-        view.updateReceipt(receiptModel);
     }
 
     public void handleGenerateInvoice(ActionEvent e) {
@@ -76,14 +74,13 @@ public class POSController {
 
     public void handleClearReceipt() {
         receiptModel.clear();
-        view.updateReceipt(receiptModel);
     }
 
     public void initialize() {
         if (menuRoot != null) {
             view.displayCategories(menuRoot);
         }
-        view.updateReceipt(receiptModel);
+        view.setReceiptModel(receiptModel);
     }
 
     public InvoiceStrategy getInvoiceStrategy() {

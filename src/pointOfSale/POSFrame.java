@@ -113,10 +113,10 @@ public class POSFrame extends JFrame implements POSView {
 
     @Override
     public void displayCategories(Object menuComponent) {}
+    
     @Override
-    public void updateReceipt(Object receiptModel) {
-        if (receiptModel instanceof ReceiptModel)
-            receiptPanel.updateDisplay((ReceiptModel) receiptModel);
+    public void setReceiptModel (ReceiptModel receiptModel) {
+        receiptPanel.setReceiptModel(receiptModel);
     }
     @Override
     public void showInvoice(String invoice) {
