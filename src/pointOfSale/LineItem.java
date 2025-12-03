@@ -18,7 +18,7 @@ public class LineItem {
 	}
 	
 	public double getSubtotal() {
-		return item.getPrice() * getQuantity();
+		return item.getTotalPrice() * getQuantity();
 	}
 	
 	@Override

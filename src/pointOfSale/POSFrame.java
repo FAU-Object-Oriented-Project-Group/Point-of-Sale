@@ -75,20 +75,11 @@ public class POSFrame extends JFrame implements POSView {
 
         // Add to Receipt
         categoryPanel.addAddToReceiptListener((ActionListener) e -> {
-            Object selected = categoryPanel.getSelectedItem();
+        	
+            Item selected = categoryPanel.getSelectedItem();
             if (selected == null) return;
-
-            String s = selected.toString();
-            String[] parts = s.split(" - \\$");
-            if (parts.length != 2) return;
-
-            String name = parts[0].trim();
-            double price;
-            try {
-                price = Double.parseDouble(parts[1].trim());
-            } catch (NumberFormatException ex) { return; }
-
-            Item item = new Item(name, price);
+            
+            Item item = new Item(selected.getName(), selected.getTotalPrice());
             this.controller.handleItemSelection(item);
         });
 

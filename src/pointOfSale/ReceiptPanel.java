@@ -63,7 +63,7 @@ class ReceiptPanel extends JPanel implements ReceiptObserver {
                 tableModel.addRow(new Object[]{
                         line.getItem().getName(),
                         line.getQuantity(),
-                        String.format("$%.2f", line.getItem().getPrice()),
+                        String.format("$%.2f", line.getItem().getTotalPrice()),
                         String.format("$%.2f", line.getSubtotal())
                 });
             }

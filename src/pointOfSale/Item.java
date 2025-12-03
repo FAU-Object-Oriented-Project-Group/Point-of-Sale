@@ -13,13 +13,13 @@ public class Item extends MenuComponent {
 		this.price = price;
 	}
 	
-	public double getPrice() {
+	private double getPrice() {
 		return this.price;
 	}
 	
 	@Override
     public double getTotalPrice() {
-        return price;
+        return getPrice();
     }
 	
 	public String getName() {
@@ -38,7 +38,7 @@ public class Item extends MenuComponent {
 	
 	@Override
     public String toString() {
-        return String.format("Price: %.2f, Name: %s", getPrice(), name);
+        return String.format("%s - $%.2f", name, getPrice());
     }
 	
 	// Increases quantity of line item

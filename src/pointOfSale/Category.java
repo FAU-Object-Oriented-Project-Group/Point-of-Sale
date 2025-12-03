@@ -3,33 +3,48 @@ package pointOfSale;
 import java.util.*;
 
 public class Category extends MenuComponent {
-	private Set<Item> items;
+	private List<MenuComponent> items;
 	public Category(String name) {
 		super(name);
-		items = new HashSet<>();
+		items = new ArrayList<>();
 	}
 
-	public void add(Item item) {
+	public void add(MenuComponent item) {
 		items.add(item);
 	}
 	
-	public void remove(Item item) {
+	public void remove(MenuComponent item) {
 		items.remove(item);
 	}
 	@Override
 	public double getTotalPrice() {
 		double acc = 0;
-		for (Item item : items) {
-			acc += item.getPrice();
+		for (MenuComponent item : items) {
+			acc += item.getTotalPrice();
 		}
 		return acc;
 	}
 
 	@Override
 	public void display() {
-		for (Item item : items) {
+		for (MenuComponent item : items) {
+			System.out.println(this.toString() + ":");
 			item.display();
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	@Override
+	public MenuComponent getChild(int index) {
+	    return items.get(index);
+	}
 
+	@Override
+	public int getChildCount() {
+	    return items.size();
+	}
 }

@@ -8,6 +8,8 @@ package pointOfSale;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -15,18 +17,20 @@ class CategoryPanel extends JPanel {
     private JTree categoryTree;
     private DefaultTreeModel treeModel;
     private JScrollPane scrollPane;
+    private Category rootCategory;
 
     public CategoryPanel() {
+    	rootCategory = new Category("Menu");
+    	
+        setLayout(new BorderLayout());
+        
+        buildTree();
+        categoryTree = new JTree(treeModel);
         setLayout(new BorderLayout());
         initComponents();
-        buildSampleTree();
     }
 
     private void initComponents() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Menu");
-        treeModel = new DefaultTreeModel(root);
-        categoryTree = new JTree(treeModel);
-        categoryTree.setShowsRootHandles(true);
         categoryTree.setRootVisible(true);
 
         scrollPane = new JScrollPane(categoryTree);
@@ -35,47 +39,47 @@ class CategoryPanel extends JPanel {
         // Add button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton addToReceiptBtn = new JButton("Add to Receipt");
+        JButton addItemBtn = new JButton("Add Item");
+        
+        buttonPanel.add(addItemBtn);
         buttonPanel.add(addToReceiptBtn);
         add(buttonPanel, BorderLayout.SOUTH);
     }
-
-    private void buildSampleTree() {
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeModel.getRoot();
-
-        // Sample categories
-        DefaultMutableTreeNode beverages = new DefaultMutableTreeNode("Beverages");
-        beverages.add(new DefaultMutableTreeNode("Coffee - $2.50"));
-        beverages.add(new DefaultMutableTreeNode("Tea - $2.00"));
-        beverages.add(new DefaultMutableTreeNode("Soda - $1.50"));
-
-        DefaultMutableTreeNode food = new DefaultMutableTreeNode("Food");
-        food.add(new DefaultMutableTreeNode("Sandwich - $5.99"));
-        food.add(new DefaultMutableTreeNode("Salad - $4.99"));
-        food.add(new DefaultMutableTreeNode("Pizza Slice - $3.50"));
-
-        DefaultMutableTreeNode desserts = new DefaultMutableTreeNode("Desserts");
-        desserts.add(new DefaultMutableTreeNode("Cake - $3.99"));
-        desserts.add(new DefaultMutableTreeNode("Ice Cream - $2.99"));
-
-        root.add(beverages);
-        root.add(food);
-        root.add(desserts);
-
-        treeModel.reload();
-
-        for (int i = 0; i < categoryTree.getRowCount(); i++) {
-            categoryTree.expandRow(i);
-        }
-    }
     
-    public void buildTree(Object menuComponent) {
-        // Will be implemented with actual MenuComponent
+    public void buildTree() {
+    	Category beverages = new Category("Beverages");
+    	beverages.add(new Item("Coffee", 2.50));
+    	beverages.add(new Item("Tea", 2.00));
+    	beverages.add(new Item("Soda", 1.50));
+    	
+    	Category food = new Category("Food");
+    	food.add(new Item("Sandwich", 5.99));
+    	food.add(new Item("Salad", 4.99));
+    	food.add(new Item("Pizza Slice", 3.50));
+    	
+    	Category desserts = new Category("Desserts");
+    	desserts.add(new Item("Cake", 3.99));
+    	desserts.add(new Item("Ice cream", 2.99));
+    	
+    	rootCategory.add(beverages);
+    	rootCategory.add(food);
+    	rootCategory.add(desserts);
+    	
+    	rebuildTree();
     }
 
-    public Object getSelectedItem() {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                categoryTree.getLastSelectedPathComponent();
-        return node != null ? node.getUserObject() : null;
+    public Item getSelectedItem() {
+        TreePath path = categoryTree.getSelectionPath();
+        if (path == null) return null;
+        
+        DefaultMutableTreeNode node =
+        		(DefaultMutableTreeNode) path.getLastPathComponent();
+        Object userObject = node.getUserObject();
+        
+        if (userObject instanceof Item) {
+        	return (Item) userObject;
+        }
+        return null;
     }
 
     // Attach listener to the Add button
@@ -96,6 +100,20 @@ class CategoryPanel extends JPanel {
                 ((JButton) comp).addActionListener(al);
                 return;
             }
+        }
+    }
+    
+    public void rebuildTree() {
+    	DefaultMutableTreeNode treeRoot = rootCategory.buildTreeNode();
+        treeModel = new DefaultTreeModel(treeRoot);
+        categoryTree = new JTree(treeModel);
+    	expandAllNodes();
+    	treeModel.reload();
+    }
+    
+    private void expandAllNodes() {
+        for (int i = 0; i < categoryTree.getRowCount(); i++) {
+            categoryTree.expandRow(i);
         }
     }
 }
