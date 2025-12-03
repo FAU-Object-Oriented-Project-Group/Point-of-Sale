@@ -1,3 +1,7 @@
+/*
+ * Author: John Cedeno
+ */
+
 package pointOfSale;
 
 import javax.swing.tree.DefaultMutableTreeNode;
