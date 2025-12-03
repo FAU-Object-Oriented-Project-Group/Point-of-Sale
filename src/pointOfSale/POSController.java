@@ -89,9 +89,6 @@ public class POSController {
     }
 
     public void initialize() {
-        if (menuRoot != null) {
-            view.displayCategories(menuRoot);
-        }
         view.setReceiptModel(receiptModel);
     }
 

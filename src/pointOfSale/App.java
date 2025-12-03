@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 
 public class App {
     public static void main(String[] args) {
-    	// Set the system look and feel
+    		// Set the system look and feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
