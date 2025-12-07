@@ -11,10 +11,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 public class POSController {
-
     private final ReceiptModel receiptModel;
     private final POSView view;
-    private final Object menuRoot;         
     private InvoiceStrategy invoiceStrategy;
     private CategoryPanel categoryPanel;
 
@@ -32,7 +30,6 @@ public class POSController {
 
         this.receiptModel = receiptModel;
         this.view = view;
-        this.menuRoot = menuRoot;
         this.invoiceStrategy = (invoiceStrategy != null)
                 ? invoiceStrategy
                 : new TextFileStrategy();
@@ -90,10 +87,6 @@ public class POSController {
 
     public void initialize() {
         view.setReceiptModel(receiptModel);
-    }
-
-    public InvoiceStrategy getInvoiceStrategy() {
-        return invoiceStrategy;
     }
 
     public void saveInvoiceToFile(java.io.File file) {
